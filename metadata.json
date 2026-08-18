@@ -1,0 +1,6 @@
+{
+  "name": "SEC Library Admin Portal",
+  "description": "Internal Library Management System for Sylhet Engineering College administration and staff.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
