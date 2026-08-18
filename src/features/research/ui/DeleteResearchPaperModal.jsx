@@ -48,7 +48,7 @@ export const DeleteResearchPaperModal = ({ isOpen, onClose, paper }) => {
             type="button"
             onClick={handleDelete}
             disabled={deletePaperMutation.isPending}
-            className="px-4 py-2 text-xs font-semibold text-white bg-red-700 hover:bg-red-800 rounded shadow-xs flex items-center gap-1.5 disabled:opacity-50"
+            className="px-4 py-2 cursor-pointer text-xs font-semibold text-white bg-red-700 hover:bg-red-800 rounded shadow-xs flex items-center gap-1.5 disabled:opacity-50"
           >
             {deletePaperMutation.isPending ? (
               <Loader2 className="w-3.5 h-3.5 animate-spin" />
