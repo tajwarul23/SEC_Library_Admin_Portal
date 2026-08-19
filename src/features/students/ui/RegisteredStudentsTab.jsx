@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useGetRegisteredStudents, useSearchRegisteredStudents } from "../Hooks/useRegisteredStudent.js";
 import { DataTable } from "../../../components/common/DataTable.jsx";
 import { FilterBar } from "../../../components/common/FilterBar.jsx";
-import { DeptBadge } from "../../../components/common/Badge.jsx";
+import { DeptBadge, Badge } from "../../../components/common/Badge.jsx";
 import { RegisteredStudentDetailsModal } from "./RegisteredStudentDetailsModal.jsx";
 import { Mail, Loader2, MousePointerClick } from "lucide-react";
 
@@ -123,6 +123,18 @@ export const RegisteredStudentsTab = () => {
           {row.Session}
         </span>
       )
+    },
+    {
+      key: "fine",
+      header: "Fine",
+      accessor: (row) =>
+        row.fine > 0 ? (
+          <Badge variant="danger" size="sm" className="font-mono font-bold">
+            ৳{row.fine}
+          </Badge>
+        ) : (
+          <span className="text-slate-400 font-mono text-[11px]">৳0</span>
+        )
     }
   ];
 

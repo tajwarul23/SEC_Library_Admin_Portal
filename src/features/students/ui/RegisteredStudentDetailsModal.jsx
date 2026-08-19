@@ -1,5 +1,5 @@
 import { Modal } from "../../../components/common/Modal.jsx";
-import { DeptBadge } from "../../../components/common/Badge.jsx";
+import { DeptBadge, Badge } from "../../../components/common/Badge.jsx";
 import { useGetStudentDetails } from "../Hooks/useRegisteredStudent.js";
 import { Loader2, AlertTriangle, Mail, BookOpen, Clock } from "lucide-react";
 
@@ -67,6 +67,16 @@ export const RegisteredStudentDetailsModal = ({ regNo, onClose }) => {
                 <span className="text-slate-500">Session: </span>
                 <span className="font-mono text-slate-800">{student?.Session}</span>
               </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-slate-500">Outstanding Fine: </span>
+                {student?.fine > 0 ? (
+                  <Badge variant="danger" size="sm" className="font-mono font-bold">
+                    ৳{student.fine}
+                  </Badge>
+                ) : (
+                  <span className="font-mono text-slate-800">৳0</span>
+                )}
+              </div>
             </div>
           </div>
 
@@ -75,7 +85,7 @@ export const RegisteredStudentDetailsModal = ({ regNo, onClose }) => {
             <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
               Activity Summary
             </h4>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               <div className="p-3 bg-blue-50 border border-blue-100 rounded text-center">
                 <div className="text-xl font-bold text-blue-900">{issuedBooks.length}</div>
                 <div className="text-[10px] uppercase tracking-wider text-blue-700 font-semibold">Issued Books</div>
@@ -83,6 +93,10 @@ export const RegisteredStudentDetailsModal = ({ regNo, onClose }) => {
               <div className="p-3 bg-amber-50 border border-amber-100 rounded text-center">
                 <div className="text-xl font-bold text-amber-900">{reservations.length}</div>
                 <div className="text-[10px] uppercase tracking-wider text-amber-700 font-semibold">Reservations</div>
+              </div>
+              <div className={`p-3 rounded text-center border ${student?.fine > 0 ? "bg-red-50 border-red-100" : "bg-slate-50 border-slate-100"}`}>
+                <div className={`text-xl font-bold ${student?.fine > 0 ? "text-red-900" : "text-slate-700"}`}>৳{student?.fine || 0}</div>
+                <div className={`text-[10px] uppercase tracking-wider font-semibold ${student?.fine > 0 ? "text-red-700" : "text-slate-500"}`}>Outstanding Fine</div>
               </div>
             </div>
           </div>
