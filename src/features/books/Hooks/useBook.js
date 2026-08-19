@@ -47,7 +47,7 @@ export function useCreateBook() {
     mutationFn: createBookApi,
     onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ["books"] });
-      queryClient.invalidateQueries({ queryKey: ["dashboardStats"] });
+      queryClient.invalidateQueries({ queryKey: ["stats", "books"] });
       toast.success(response.message || "Book added to catalog");
     },
     onError: (error) => {
@@ -65,7 +65,7 @@ export function useUpdateBook() {
     mutationFn: updateBookApi,
     onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ["books"] });
-      queryClient.invalidateQueries({ queryKey: ["dashboardStats"] });
+      queryClient.invalidateQueries({ queryKey: ["stats", "books"] });
       toast.success(response.message || "Book updated successfully");
     },
     onError: (error) => {
@@ -83,7 +83,7 @@ export function useDeleteBook() {
     mutationFn: deleteBookApi,
     onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ["books"] });
-      queryClient.invalidateQueries({ queryKey: ["dashboardStats"] });
+      queryClient.invalidateQueries({ queryKey: ["stats", "books"] });
       toast.success(response.message || "Book deleted successfully");
     },
     onError: (error) => {
