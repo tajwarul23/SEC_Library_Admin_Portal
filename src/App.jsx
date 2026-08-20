@@ -13,6 +13,7 @@ const IssueFormRoute = lazy(() => import("./features/issue/routes/IssueFormRoute
 const IssuedBooksListRoute = lazy(() => import("./features/issue/routes/IssuedBooksListRoute"));
 const ReservationsList = lazy(() => import("./features/reservations/ui/ReservationsList"));
 const ResearchPapersList = lazy(() => import("./features/research/ui/ResearchPapersList"));
+const PaymentsList = lazy(() => import("./features/payments/ui/PaymentsList"));
 
 export default function App() {
   return (
@@ -62,6 +63,11 @@ export default function App() {
           <Route
             path="/research"
             element={<ResearchPapersList />}
+          />
+
+          <Route
+            path="/payments"
+            element={<PaymentsList />}
           />
         </Route>
       </Route>

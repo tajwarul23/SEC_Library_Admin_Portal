@@ -10,6 +10,7 @@ import {
   FileText,
   LogOut,
   Building,
+  Receipt,
 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth.jsx";
 import logo from "../../assets/logo.png";
@@ -64,6 +65,12 @@ export const Sidebar = ({ isMobileOpen, onCloseMobile }) => {
       path: "/research",
       label: "Research Papers Repository",
       icon: FileText,
+      badge: null,
+    },
+    {
+      path: "/payments",
+      label: "Fine Payments",
+      icon: Receipt,
       badge: null,
     },
   ];
