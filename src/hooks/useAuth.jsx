@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { loginApi, logoutApi, getMeApi } from "../services/authApi.js";
+import { loginApi, guestLoginApi, logoutApi, getMeApi } from "../services/authApi.js";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -50,6 +50,19 @@ export function AuthProvider({ children }) {
       toast.error(error.message || "Login failed");
     },
   });
+  const guestLoginMutation = useMutation({
+    mutationFn: guestLoginApi,
+    onSuccess: (response) => {
+      const admin = response.data.admin;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(admin));
+      queryClient.setQueryData(["adminMe"], response);
+      toast.success("Browsing as guest (read-only)");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Guest sign-in failed");
+    },
+  });
+
   const navigate = useNavigate();
 
   const logoutMutation = useMutation({
@@ -71,12 +84,18 @@ export function AuthProvider({ children }) {
     },
   });
 
+  const currentUser = isMeError ? null : user;
+
   const value = {
-    user: isMeError ? null : user,
+    user: currentUser,
     isInitializing,
     isAuthenticated: !isMeError && !!user,
+    // Read-only visitor: action buttons are disabled in the UI, and the
+    // backend refuses every change from a guest session regardless.
+    isGuest: currentUser?.role === "guest",
     login: (credentials) => loginMutation.mutateAsync(credentials),
-    isLoggingIn: loginMutation.isPending,
+    loginAsGuest: () => guestLoginMutation.mutateAsync(),
+    isLoggingIn: loginMutation.isPending || guestLoginMutation.isPending,
     logout: () => logoutMutation.mutateAsync(),
     isLoggingOut: logoutMutation.isPending,
   };

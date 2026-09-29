@@ -8,6 +8,7 @@ import { EditBookModal } from "./EditBookModal";
 import { DeleteBookModal } from "./DeleteBookModal";
 import { BookPlus, Edit, Trash2, BookmarkPlus, Loader2 } from "lucide-react";
 import { BookCover } from "./BookCover";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const LIMIT = 10; 
 const SEARCH_DEBOUNCE_MS = 300;
@@ -33,6 +34,7 @@ const AVAILABILITY_OPTIONS = [
 ];
 
 export const BookList = ({ onQuickIssueBook }) => {
+  const { isGuest } = useAuth();
   const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("ALL");
@@ -160,7 +162,7 @@ export const BookList = ({ onQuickIssueBook }) => {
           {onQuickIssueBook && (
             <button
               onClick={() => onQuickIssueBook(row)}
-              disabled={row.availableCopies <= 0}
+              disabled={isGuest || row.availableCopies <= 0}
               className="px-2 py-1 bg-[#1E3A8A] hover:bg-blue-900 text-white text-[11px] font-semibold rounded shadow-xs flex items-center gap-1 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
               title="Issue this book to a student"
             >
@@ -171,7 +173,8 @@ export const BookList = ({ onQuickIssueBook }) => {
 
           <button
             onClick={() => setEditingBook(row)}
-            className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded transition-colors cursor-pointer"
+            disabled={isGuest}
+            className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             title="Edit book details"
           >
             <Edit className="w-3.5 h-3.5" />
@@ -179,7 +182,8 @@ export const BookList = ({ onQuickIssueBook }) => {
 
           <button
             onClick={() => setDeletingBook(row)}
-            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors cursor-pointer"
+            disabled={isGuest}
+            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             title="Delete book"
           >
             <Trash2 className="w-3.5 h-3.5" />
@@ -204,7 +208,8 @@ export const BookList = ({ onQuickIssueBook }) => {
 
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1E3A8A] hover:bg-blue-900 text-white text-xs font-semibold rounded shadow-xs transition-colors shrink-0 cursor-pointer"
+          disabled={isGuest}
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1E3A8A] hover:bg-blue-900 text-white text-xs font-semibold rounded shadow-xs transition-colors shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
         >
           <BookPlus className="w-4 h-4" />
           <span>Add New Book</span>

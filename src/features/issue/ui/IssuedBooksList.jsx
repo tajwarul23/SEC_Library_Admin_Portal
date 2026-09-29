@@ -5,6 +5,7 @@ import { FilterBar } from "../../../components/common/FilterBar";
 import { DeptBadge } from "../../../components/common/Badge";
 import { ReturnBookModal } from "./ReturnBookModal";
 import { RotateCcw, AlertTriangle, CheckCircle2, BookmarkPlus, Clock, Loader2 } from "lucide-react";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const formatDate = (value) => (value ? new Date(value).toLocaleDateString() : "—");
 const LIMIT = 6;
@@ -14,6 +15,7 @@ export const IssuedBooksList = ({
   regNo,
   bookId
 }) => {
+  const { isGuest } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [offset, setOffset] = useState(0);
@@ -147,7 +149,8 @@ export const IssuedBooksList = ({
           {row.status !== "returned" && (
               <button
         onClick={() => setReturnRecord(row)}
-        className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-semibold rounded shadow-xs flex items-center gap-1 transition-colors cursor-pointer"
+        disabled={isGuest}
+        className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-semibold rounded shadow-xs flex items-center gap-1 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
         title="Mark book as returned"
       >
                 <RotateCcw className="w-3 h-3 text-amber-400" />

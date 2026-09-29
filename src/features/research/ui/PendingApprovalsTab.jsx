@@ -7,12 +7,14 @@ import { EditResearchPaperModal } from "./EditResearchPaperModal";
 import { DeleteResearchPaperModal } from "./DeleteResearchPaperModal";
 import { RejectResearchPaperModal } from "./RejectResearchPaperModal";
 import { Eye, CheckCircle2, XCircle, Trash2, Loader2 } from "lucide-react";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const LIMIT = 10;
 
 const formatDate = (value) => (value ? new Date(value).toLocaleDateString() : "—");
 
 export const PendingApprovalsTab = () => {
+  const { isGuest } = useAuth();
   const [page, setPage] = useState(1);
   const [viewingPaper, setViewingPaper] = useState(null);
   const [editingPaper, setEditingPaper] = useState(null);
@@ -87,14 +89,15 @@ export const PendingApprovalsTab = () => {
           </button>
           <button
             onClick={() => setRejectingPaper(row)}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-[11px] font-semibold rounded transition-colors cursor-pointer"
+            disabled={isGuest}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-[11px] font-semibold rounded transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <XCircle className="w-3.5 h-3.5" />
             <span>Reject</span>
           </button>
           <button
             onClick={() => approvePaperMutation.mutate(row._id)}
-            disabled={approvePaperMutation.isPending}
+            disabled={isGuest || approvePaperMutation.isPending}
             className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-700 hover:bg-emerald-800 text-white text-[11px] font-semibold rounded transition-colors cursor-pointer disabled:opacity-50"
           >
             <CheckCircle2 className="w-3.5 h-3.5" />
@@ -102,7 +105,8 @@ export const PendingApprovalsTab = () => {
           </button>
           <button
             onClick={() => setDeletingPaper(row)}
-            className="inline-flex items-center gap-1.5 px-2 py-1 bg-slate-100 hover:bg-red-100 text-slate-600 hover:text-red-700 text-[11px] font-semibold rounded transition-colors cursor-pointer"
+            disabled={isGuest}
+            className="inline-flex items-center gap-1.5 px-2 py-1 bg-slate-100 hover:bg-red-100 text-slate-600 hover:text-red-700 text-[11px] font-semibold rounded transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             title="Delete submission"
           >
             <Trash2 className="w-3.5 h-3.5" />

@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   Loader2
 } from "lucide-react";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const SEARCH_DEBOUNCE_MS = 300;
 
@@ -16,6 +17,7 @@ export const IssueBookForm = ({
   initialBook,
   onSuccess
 }) => {
+  const { isGuest } = useAuth();
   const issueBookMutation = useIssueBookDirect();
 
   const [bookQuery, setBookQuery] = useState(initialBook ? initialBook.title : "");
@@ -309,7 +311,7 @@ export const IssueBookForm = ({
   }
           <button
             type="submit"
-            disabled={!selectedBook || !selectedStudent || selectedBook.availableCopies <= 0 || issueBookMutation.isPending}
+            disabled={isGuest || !selectedBook || !selectedStudent || selectedBook.availableCopies <= 0 || issueBookMutation.isPending}
             className="w-full py-2.5 px-4 bg-[#1E3A8A] hover:bg-blue-900 text-white font-bold text-xs rounded shadow-xs flex items-center justify-center gap-2 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
             {issueBookMutation.isPending ? (

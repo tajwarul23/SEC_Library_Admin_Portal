@@ -16,3 +16,8 @@ export async function logoutApi() {
 export async function getMeApi() {
   return apiClient.get("/admin/me");
 }
+
+// POST /api/admin/guest — one-click read-only visit (no account needed).
+export async function guestLoginApi() {
+  return apiClient.post("/admin/guest");
+}
