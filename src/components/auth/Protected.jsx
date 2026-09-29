@@ -21,7 +21,8 @@ const Protected = ({ children, allowedRoles }) => {
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    return <Navigate to="/unauthorized" replace />;
+    // No other roles exist; any unexpected role goes back to login
+    return <Navigate to="/login" replace />;
   }
 
   return children;

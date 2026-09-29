@@ -1,9 +1,5 @@
 import { apiClient } from "./apiClient.js";
 
-export async function registerAdminApi(data) {
-  return apiClient.post("/admin/register", data);
-}
-
 export async function loginApi(credentials) {
   return apiClient.post("/admin/login", credentials);
 }

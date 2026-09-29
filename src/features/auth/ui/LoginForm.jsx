@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "../../../hooks/useAuth.jsx";
 import { loginSchema } from "../../../utils/validationSchemas.js";
 import { Lock, IdCard, Eye, EyeOff, ShieldCheck, AlertCircle, Loader2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../../assets/logo.png";
 
 export const LoginForm = () => {
@@ -25,6 +25,8 @@ export const LoginForm = () => {
   });
 
   const navigate = useNavigate();
+  // Page the user was sent here from (set by Protected.jsx), to return to after login
+  const location = useLocation();
 
 const onSubmit = async (data) => {
   setErrorMsg(null);
