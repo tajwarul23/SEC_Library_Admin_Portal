@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
+import { GuestBanner } from "./GuestBanner";
 
 export const AdminLayout = () => {
   // State management
@@ -23,6 +24,7 @@ export const AdminLayout = () => {
           onToggleSidebarMobile={() => setIsSidebarMobileOpen(!isSidebarMobileOpen)}
           isSidebarMobileOpen={isSidebarMobileOpen}
         />
+        <GuestBanner />
 
         {/* Scrollable Page Body */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">

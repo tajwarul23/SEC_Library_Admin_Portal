@@ -23,7 +23,7 @@ export default function App() {
       <Route path="/login" element={<LoginForm />} />
 
       {/* Protected admin routes */}
-      <Route element={<ProtectedLayout allowedRoles={["admin"]} />}>
+      <Route element={<ProtectedLayout allowedRoles={["admin", "guest"]} />}>
         <Route element={<AdminLayout />}>
           <Route
             index

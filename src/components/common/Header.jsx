@@ -88,7 +88,7 @@ export const Header = ({
           {showProfileMenu && <div className="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-md shadow-lg py-1 z-50 text-slate-800 animate-in fade-in duration-100">
               <div className="px-4 py-2.5 border-b border-slate-100 bg-slate-50">
                 <p className="text-xs font-bold text-slate-900">{user?.name || "M. Rahman"}</p>
-                <p className="text-[11px] text-slate-500 font-mono truncate">{user?.email || "admin@sec.ac.bd"}</p>
+                <p className="text-[11px] text-slate-500 font-mono truncate">{user?.email || (user?.role === "guest" ? "Read-only visitor" : "admin@sec.ac.bd")}</p>
                 <span className="inline-block mt-1 px-1.5 py-0.2 bg-[#1E3A8A]/10 text-[#1E3A8A] text-[10px] font-semibold rounded">
                   {user?.role }
                 </span>

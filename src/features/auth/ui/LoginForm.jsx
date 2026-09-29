@@ -4,11 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "../../../hooks/useAuth.jsx";
 import { loginSchema } from "../../../utils/validationSchemas.js";
 import { Lock, IdCard, Eye, EyeOff, ShieldCheck, AlertCircle, Loader2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../../assets/logo.png";
 
 export const LoginForm = () => {
-  const { login, isLoggingIn } = useAuth();
+  const { login, loginAsGuest, isLoggingIn } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
 
@@ -25,6 +25,8 @@ export const LoginForm = () => {
   });
 
   const navigate = useNavigate();
+  // Page the user was sent here from (set by Protected.jsx), to return to after login
+  const location = useLocation();
 
 const onSubmit = async (data) => {
   setErrorMsg(null);
@@ -34,6 +36,16 @@ const onSubmit = async (data) => {
     navigate(destination, { replace: true });
   } catch (err) {
     setErrorMsg(err.message || "Invalid credentials. Please verify and try again.");
+  }
+};
+
+const onGuest = async () => {
+  setErrorMsg(null);
+  try {
+    await loginAsGuest();
+    navigate("/overview", { replace: true });
+  } catch (err) {
+    setErrorMsg(err.message || "Guest sign-in failed. Please try again.");
   }
 };
 
@@ -148,6 +160,17 @@ const onSubmit = async (data) => {
               )}
             </button>
           </form>
+
+          {/* One-click read-only visit — no account needed */}
+          <button
+            type="button"
+            disabled={isLoggingIn}
+            onClick={onGuest}
+            className="w-full mt-3 py-2.5 px-4 bg-white hover:bg-slate-50 text-slate-700 font-medium text-sm rounded border border-slate-300 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-colors cursor-pointer"
+          >
+            <Eye className="w-4 h-4" />
+            <span>Continue as Guest (view only)</span>
+          </button>
         </div>
 
         {/* Footer info */}

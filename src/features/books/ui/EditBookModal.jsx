@@ -44,21 +44,33 @@ export const EditBookModal = ({
     e.preventDefault();
     if (!title.trim() || authorList.length === 0 || copiesInvalid) return;
 
+    // Send only what the admin actually changed. Copy counts move while the
+    // form is open (students reserve, books come back), so re-sending the
+    // stale availableCopies would silently overwrite the real stock. If only
+    // the total changes, the backend shifts available copies by the same amount.
+    const data = {};
+    if (title.trim() !== book.title) data.title = title.trim();
+    if (authorList.join("|") !== (book.authors || []).join("|")) data.authors = authorList;
+    if (isbn.trim() !== book.isbn) data.isbn = isbn.trim();
+    if (category !== (book.category || "GENERAL")) data.category = category;
+    if (Number(totalCopies) !== book.totalCopies) data.totalCopies = Number(totalCopies);
+    if (Number(availableCopies) !== book.availableCopies) data.availableCopies = Number(availableCopies);
+    if (coverImage.trim() !== (book.coverImage?.url || "")) {
+      data.coverImage = {
+        url: coverImage.trim() || null,
+        publicId: book.coverImage?.publicId ?? null,
+      };
+    }
+
+    if (Object.keys(data).length === 0) {
+      onClose();
+      return;
+    }
+
     updateBookMutation.mutate(
       {
         bookId: book._id,
-        data: {
-          title: title.trim(),
-          authors: authorList,
-          isbn: isbn.trim(),
-          category,
-          totalCopies: Number(totalCopies),
-          availableCopies: Number(availableCopies),
-          coverImage: {
-            url: coverImage.trim() || null,
-            publicId: book.coverImage?.publicId ?? null,
-          },
-        },
+        data,
       },
       {
         onSuccess: () => {

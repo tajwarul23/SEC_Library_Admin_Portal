@@ -6,6 +6,7 @@ import { DeptBadge } from "../../../components/common/Badge.jsx";
 import { AddStudentModal } from "./AddStudentModal.jsx";
 import { DeleteStudentModal } from "./DeleteStudentModal.jsx";
 import { UserPlus, Trash2, Mail, Loader2 } from "lucide-react";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const LIMIT = 10;
 const SEARCH_DEBOUNCE_MS = 300;
@@ -19,6 +20,7 @@ const SEARCH_DEBOUNCE_MS = 300;
 // filter dropdowns are hidden while a search is active (same convention as
 // RegisteredStudentsTab).
 export const AllStudentsTab = () => {
+  const { isGuest } = useAuth();
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -138,7 +140,8 @@ export const AllStudentsTab = () => {
         <div className="flex items-center gap-1.5 justify-end">
           <button
             onClick={() => setDeletingStudent(row)}
-            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors cursor-pointer"
+            disabled={isGuest}
+            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             title="Delete student record"
           >
             <Trash2 className="w-3.5 h-3.5" />
@@ -158,7 +161,8 @@ export const AllStudentsTab = () => {
 
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1E3A8A] hover:bg-blue-900 text-white text-xs font-semibold rounded shadow-xs transition-colors shrink-0 cursor-pointer"
+          disabled={isGuest}
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1E3A8A] hover:bg-blue-900 text-white text-xs font-semibold rounded shadow-xs transition-colors shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
         >
           <UserPlus className="w-4 h-4" />
           <span>Register New Student</span>

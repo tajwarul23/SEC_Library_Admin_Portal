@@ -2,10 +2,12 @@ import { Modal } from "../../../components/common/Modal";
 import { DeptBadge } from "../../../components/common/Badge";
 import { ResearchPaperStatusBadge } from "./ResearchPaperStatusBadge";
 import { ExternalLink, Edit, Trash2, User, CheckCircle2, XCircle } from "lucide-react";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const formatDate = (value) => (value ? new Date(value).toLocaleDateString() : "—");
 
 export const ResearchPaperDetailsModal = ({ paper, onClose, onEdit, onDelete, onApprove, onReject }) => {
+  const { isGuest } = useAuth();
   const isOpen = !!paper;
 
   return (
@@ -153,7 +155,8 @@ export const ResearchPaperDetailsModal = ({ paper, onClose, onEdit, onDelete, on
             <button
               type="button"
               onClick={() => onDelete(paper)}
-              className="px-4 py-2 text-xs font-semibold text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 rounded flex items-center gap-1.5"
+              disabled={isGuest}
+              className="px-4 py-2 text-xs font-semibold text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 rounded flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Trash2 className="w-3.5 h-3.5" />
               <span>Delete</span>
@@ -161,7 +164,8 @@ export const ResearchPaperDetailsModal = ({ paper, onClose, onEdit, onDelete, on
             <button
               type="button"
               onClick={() => onEdit(paper)}
-              className="px-4 py-2 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded shadow-xs flex items-center gap-1.5"
+              disabled={isGuest}
+              className="px-4 py-2 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded shadow-xs flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Edit className="w-3.5 h-3.5" />
               <span>Edit</span>
@@ -170,7 +174,8 @@ export const ResearchPaperDetailsModal = ({ paper, onClose, onEdit, onDelete, on
               <button
                 type="button"
                 onClick={() => onReject(paper)}
-                className="px-4 py-2 text-xs font-semibold text-white bg-red-700 hover:bg-red-800 rounded shadow-xs flex items-center gap-1.5"
+                disabled={isGuest}
+                className="px-4 py-2 text-xs font-semibold text-white bg-red-700 hover:bg-red-800 rounded shadow-xs flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <XCircle className="w-3.5 h-3.5" />
                 <span>Reject</span>
@@ -180,7 +185,8 @@ export const ResearchPaperDetailsModal = ({ paper, onClose, onEdit, onDelete, on
               <button
                 type="button"
                 onClick={() => onApprove(paper)}
-                className="px-4 py-2 text-xs font-semibold text-white bg-emerald-700 hover:bg-emerald-800 rounded shadow-xs flex items-center gap-1.5"
+                disabled={isGuest}
+                className="px-4 py-2 text-xs font-semibold text-white bg-emerald-700 hover:bg-emerald-800 rounded shadow-xs flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>Approve</span>

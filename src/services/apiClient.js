@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// Real Express backend — httpOnly cookie auth (auth_token, 1hr session).
+// Real Express backend — httpOnly cookie auth (admin_token, 24h session).
 // withCredentials is required for the cookie to be sent/received cross-origin.
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL, // e.g. http://localhost:5000/api
@@ -20,7 +20,7 @@ apiClient.interceptors.response.use(
       error.message ||
       "An unexpected network error occurred";
 
-    // Backend session cookie is invalid/expired (1hr TTL, no refresh token).
+    // Backend session cookie is invalid/expired (24h TTL, no refresh token).
     // Clear the cached admin and bounce to /login rather than let every
     // failed call surface a confusing error.
     if (status === 401 && !window.location.pathname.startsWith("/login")) {

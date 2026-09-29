@@ -5,6 +5,7 @@ import { DataTable } from "../../../components/common/DataTable";
 import { FilterBar } from "../../../components/common/FilterBar";
 import { DeptBadge } from "../../../components/common/Badge";
 import { Clock, CheckCircle2, XCircle, AlertTriangle, BookmarkPlus, Loader2 } from "lucide-react";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const formatDate = (value) => {
   if (!value) return "—";
@@ -17,6 +18,7 @@ const formatDate = (value) => {
 const LIMIT = 6;
 
  const ReservationsList = () => {
+  const { isGuest } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [offset, setOffset] = useState(0);
@@ -159,7 +161,7 @@ const LIMIT = 6;
             {row.status === "pending" && (
               <button
                 onClick={() => issueReservedMutation.mutate({ bookId, reservationId })}
-                disabled={issueReservedMutation.isPending}
+                disabled={isGuest || issueReservedMutation.isPending}
                 className="px-2.5 py-1 bg-[#1E3A8A] hover:bg-blue-900 text-white text-[11px] font-semibold rounded shadow-xs flex items-center gap-1 transition-colors cursor-pointer disabled:opacity-50"
                 title="Convert reservation to issued book"
               >

@@ -10,6 +10,7 @@ import { DeleteResearchPaperModal } from "./DeleteResearchPaperModal";
 import { RejectResearchPaperModal } from "./RejectResearchPaperModal";
 import { ResearchPaperDetailsModal } from "./ResearchPaperDetailsModal";
 import { Eye, PlusCircle, Trash2, Loader2 } from "lucide-react";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const LIMIT = 10;
 const SEARCH_DEBOUNCE_MS = 300;
@@ -37,6 +38,7 @@ const STATUS_OPTIONS = [
 const formatDate = (value) => (value ? new Date(value).toLocaleDateString() : "—");
 
 export const AllPapersTab = () => {
+  const { isGuest } = useAuth();
   const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("ALL");
@@ -169,7 +171,8 @@ export const AllPapersTab = () => {
           </button>
           <button
             onClick={() => setDeletingPaper(row)}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-[11px] font-semibold rounded transition-colors cursor-pointer"
+            disabled={isGuest}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-[11px] font-semibold rounded transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <Trash2 className="w-3.5 h-3.5" />
             <span>Delete</span>
@@ -185,7 +188,8 @@ export const AllPapersTab = () => {
       <div className="flex justify-end">
         <button
           onClick={() => setShowUploadForm(!showUploadForm)}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1E3A8A] hover:bg-blue-900 text-white text-xs font-semibold rounded shadow-xs transition-colors shrink-0 cursor-pointer"
+          disabled={isGuest}
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1E3A8A] hover:bg-blue-900 text-white text-xs font-semibold rounded shadow-xs transition-colors shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
         >
           <PlusCircle className="w-4 h-4" />
           <span>{showUploadForm ? "Hide Form" : "Upload Research Paper"}</span>
