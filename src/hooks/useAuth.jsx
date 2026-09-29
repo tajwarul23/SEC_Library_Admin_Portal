@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
 
   // Cached display object for instant UI on refresh — NOT proof of a valid
   // session by itself. The /me query below is what actually validates the
-  // httpOnly auth_token cookie against the backend.
+  // httpOnly admin_token cookie against the backend.
   const [cachedUser] = useState(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
